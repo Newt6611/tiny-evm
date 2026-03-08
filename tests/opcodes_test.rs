@@ -179,6 +179,57 @@ fn sub_stack_underflow() {
     assert!(interp.run().is_err());
 }
 
+// --- DIV ---
+
+#[test]
+fn div_basic() {
+    // push 10, push 2 => stack [10, 2], DIV => pop 2 (value1), pop 10 (value2) => 10 / 2 = 5
+    let interp = run(vec![
+        op(Opcode::PUSH1), 0x0a,
+        op(Opcode::PUSH1), 0x02,
+        op(Opcode::DIV),
+    ]);
+    assert_eq!(interp.stack().as_slice(), &[5]);
+}
+
+#[test]
+fn div_by_one() {
+    let interp = run(vec![
+        op(Opcode::PUSH1), 0x42,
+        op(Opcode::PUSH1), 0x01,
+        op(Opcode::DIV),
+    ]);
+    assert_eq!(interp.stack().as_slice(), &[0x42]);
+}
+
+#[test]
+fn div_by_zero() {
+    // EVM spec: division by zero returns 0
+    let interp = run(vec![
+        op(Opcode::PUSH1), 0x0a,
+        op(Opcode::PUSH1), 0x00,
+        op(Opcode::DIV),
+    ]);
+    assert_eq!(interp.stack().as_slice(), &[0]);
+}
+
+#[test]
+fn div_truncates() {
+    // 7 / 2 = 3 (integer division, truncated)
+    let interp = run(vec![
+        op(Opcode::PUSH1), 0x07,
+        op(Opcode::PUSH1), 0x02,
+        op(Opcode::DIV),
+    ]);
+    assert_eq!(interp.stack().as_slice(), &[3]);
+}
+
+#[test]
+fn div_stack_underflow() {
+    let mut interp = Interpreter::new(vec![op(Opcode::PUSH1), 0x01, op(Opcode::DIV)]);
+    assert!(interp.run().is_err());
+}
+
 // --- POP ---
 
 #[test]

@@ -52,6 +52,15 @@ impl Interpreter {
                     let value2 = self.stack.pop()?;
                     self.stack.push(value2.wrapping_sub(value1))?;
                 }
+                Opcode::DIV => {
+                    let value1 = self.stack.pop()?;
+                    let value2 = self.stack.pop()?;
+                    if value1 == 0 {
+                        self.stack.push(0);
+                    } else {
+                        self.stack.push(value2 / value1)?;
+                    }
+                }
                 Opcode::POP => {
                     let _ = self.stack.pop()?;
                 }

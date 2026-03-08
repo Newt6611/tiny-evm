@@ -4,6 +4,7 @@ pub enum Opcode {
     ADD,
     MUL,
     SUB,
+    DIV,
     POP,
     MLOAD,
     MSTORE,
@@ -23,6 +24,7 @@ impl Opcode {
             Opcode::ADD => 0x01,
             Opcode::MUL => 0x02,
             Opcode::SUB => 0x03,
+            Opcode::DIV => 0x04,
             Opcode::POP => 0x50,
             Opcode::MLOAD => 0x51,
             Opcode::MSTORE => 0x52,
@@ -38,6 +40,7 @@ impl Opcode {
             0x01 => Some(Opcode::ADD),
             0x02 => Some(Opcode::MUL),
             0x03 => Some(Opcode::SUB),
+            0x04 => Some(Opcode::DIV),
             0x50 => Some(Opcode::POP),
             0x51 => Some(Opcode::MLOAD),
             0x52 => Some(Opcode::MSTORE),
@@ -48,4 +51,3 @@ impl Opcode {
         }
     }
 }
-

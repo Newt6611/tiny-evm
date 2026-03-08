@@ -12,6 +12,7 @@ This is a practice project and does not include gas calculation.
 | ADD | 0x01 | Addition |
 | MUL | 0x02 | Multiplication |
 | SUB | 0x03 | Subtraction |
+| DIV | 0x04 | Integer division (div by zero returns 0) |
 | POP | 0x50 | Remove top stack item |
 | MLOAD | 0x51 | Load word from memory |
 | MSTORE | 0x52 | Store word to memory |
